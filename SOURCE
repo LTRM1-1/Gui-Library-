@@ -1,0 +1,99 @@
+local GUI = {}
+GUI.Elements = {}
+
+-- Function to create a new window
+function GUI:CreateWindow(title)
+    local window = {
+        title = title,
+        tabs = {},
+        activeTab = nil
+    }
+    function window:AddTab(name)
+        local tab = {
+            name = name,
+            elements = {}
+        }
+        table.insert(self.tabs, tab)
+        if not self.activeTab then
+            self.activeTab = tab
+        end
+        return tab
+    end
+    table.insert(GUI.Elements, window)
+    return window
+end
+
+-- Function to add a button
+function GUI:AddButton(tab, text, callback)
+    local button = {
+        type = "Button",
+        text = text,
+        callback = callback
+    }
+    table.insert(tab.elements, button)
+end
+
+-- Function to add a toggle
+function GUI:AddToggle(tab, text, default, callback)
+    local toggle = {
+        type = "Toggle",
+        text = text,
+        state = default or false,
+        callback = callback
+    }
+    table.insert(tab.elements, toggle)
+end
+
+-- Function to add a slider
+function GUI:AddSlider(tab, text, min, max, default, callback)
+    local slider = {
+        type = "Slider",
+        text = text,
+        min = min,
+        max = max,
+        value = default or min,
+        callback = callback
+    }
+    table.insert(tab.elements, slider)
+end
+
+-- Function to add a dropdown
+function GUI:AddDropdown(tab, text, options, default, callback)
+    local dropdown = {
+        type = "Dropdown",
+        text = text,
+        options = options,
+        selected = default or options[1],
+        callback = callback
+    }
+    table.insert(tab.elements, dropdown)
+end
+
+-- Function to add a color picker
+function GUI:AddColorPicker(tab, text, default, callback)
+    local colorPicker = {
+        type = "ColorPicker",
+        text = text,
+        color = default or {1, 1, 1},
+        callback = callback
+    }
+    table.insert(tab.elements, colorPicker)
+end
+
+-- Function to add an input field
+function GUI:AddInput(tab, text, default, callback)
+    local input = {
+        type = "Input",
+        text = text,
+        value = default or "",
+        callback = callback
+    }
+    table.insert(tab.elements, input)
+end
+
+-- Function to add tooltips
+function GUI:AddTooltip(element, text)
+    element.tooltip = text
+end
+
+return GUI
