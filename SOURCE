@@ -27,15 +27,15 @@ function ModernGUI:CreateWindow(title)
     return self
 end
 
--- Create a button
-function ModernGUI:CreateButton(text, callback)
+-- ✅ Fix: Make sure CreateButton is added to the correct instance
+function ModernGUI.CreateButton(self, text, callback)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(0.8, 0, 0, 40)
     button.Position = UDim2.new(0.1, 0, 0.2, 0)
     button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     button.Text = text
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Parent = self.MainFrame
+    button.Parent = self.MainFrame  -- ✅ Fix: Ensure the button is parented to the instance’s MainFrame
 
     button.MouseButton1Click:Connect(function()
         local tween = TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(70, 70, 70)})
@@ -47,3 +47,4 @@ function ModernGUI:CreateButton(text, callback)
 end
 
 return ModernGUI
+
