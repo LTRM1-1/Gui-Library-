@@ -1,99 +1,49 @@
-local GUI = {}
-GUI.Elements = {}
+local ModernGUI = {}
+ModernGUI.__index = ModernGUI
 
--- Function to create a new window
-function GUI:CreateWindow(title)
-    local window = {
-        title = title,
-        tabs = {},
-        activeTab = nil
-    }
-    function window:AddTab(name)
-        local tab = {
-            name = name,
-            elements = {}
-        }
-        table.insert(self.tabs, tab)
-        if not self.activeTab then
-            self.activeTab = tab
-        end
-        return tab
-    end
-    table.insert(GUI.Elements, window)
-    return window
+local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+-- Create a new GUI window
+function ModernGUI:CreateWindow(title)
+    local self = setmetatable({}, ModernGUI)
+    self.Window = Instance.new("ScreenGui")
+    self.Window.Parent = game.CoreGui
+
+    self.MainFrame = Instance.new("Frame")
+    self.MainFrame.Size = UDim2.new(0, 400, 0, 300)
+    self.MainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    self.MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    self.MainFrame.BorderSizePixel = 0
+    self.MainFrame.Parent = self.Window
+
+    self.Title = Instance.new("TextLabel")
+    self.Title.Text = title
+    self.Title.Size = UDim2.new(1, 0, 0, 30)
+    self.Title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    self.Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    self.Title.Parent = self.MainFrame
+
+    return self
 end
 
--- Function to add a button
-function GUI:AddButton(tab, text, callback)
-    local button = {
-        type = "Button",
-        text = text,
-        callback = callback
-    }
-    table.insert(tab.elements, button)
+-- Create a button
+function ModernGUI:CreateButton(text, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0.8, 0, 0, 40)
+    button.Position = UDim2.new(0.1, 0, 0.2, 0)
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Parent = self.MainFrame
+
+    button.MouseButton1Click:Connect(function()
+        local tween = TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(70, 70, 70)})
+        tween:Play()
+        wait(0.2)
+        if callback then callback() end
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+    end)
 end
 
--- Function to add a toggle
-function GUI:AddToggle(tab, text, default, callback)
-    local toggle = {
-        type = "Toggle",
-        text = text,
-        state = default or false,
-        callback = callback
-    }
-    table.insert(tab.elements, toggle)
-end
-
--- Function to add a slider
-function GUI:AddSlider(tab, text, min, max, default, callback)
-    local slider = {
-        type = "Slider",
-        text = text,
-        min = min,
-        max = max,
-        value = default or min,
-        callback = callback
-    }
-    table.insert(tab.elements, slider)
-end
-
--- Function to add a dropdown
-function GUI:AddDropdown(tab, text, options, default, callback)
-    local dropdown = {
-        type = "Dropdown",
-        text = text,
-        options = options,
-        selected = default or options[1],
-        callback = callback
-    }
-    table.insert(tab.elements, dropdown)
-end
-
--- Function to add a color picker
-function GUI:AddColorPicker(tab, text, default, callback)
-    local colorPicker = {
-        type = "ColorPicker",
-        text = text,
-        color = default or {1, 1, 1},
-        callback = callback
-    }
-    table.insert(tab.elements, colorPicker)
-end
-
--- Function to add an input field
-function GUI:AddInput(tab, text, default, callback)
-    local input = {
-        type = "Input",
-        text = text,
-        value = default or "",
-        callback = callback
-    }
-    table.insert(tab.elements, input)
-end
-
--- Function to add tooltips
-function GUI:AddTooltip(element, text)
-    element.tooltip = text
-end
-
-return GUI
+return ModernGUI
