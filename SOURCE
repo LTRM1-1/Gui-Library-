@@ -24,26 +24,26 @@ function ModernGUI:CreateWindow(title)
     self.Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     self.Title.Parent = self.MainFrame
 
+    -- Create methods like CreateButton within this instance's context
+    function self:CreateButton(text, callback)
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(0.8, 0, 0, 40)
+        button.Position = UDim2.new(0.1, 0, 0.2, 0)
+        button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        button.Text = text
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.Parent = self.MainFrame
+
+        button.MouseButton1Click:Connect(function()
+            local tween = TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(70, 70, 70)})
+            tween:Play()
+            wait(0.2)
+            if callback then callback() end
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
+        end)
+    end
+
     return self
-end
-
--- ✅ Fix: Make sure CreateButton is added to the correct instance
-function ModernGUI.CreateButton(self, text, callback)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0.8, 0, 0, 40)
-    button.Position = UDim2.new(0.1, 0, 0.2, 0)
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    button.Text = text
-    button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    button.Parent = self.MainFrame  -- ✅ Fix: Ensure the button is parented to the instance’s MainFrame
-
-    button.MouseButton1Click:Connect(function()
-        local tween = TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(70, 70, 70)})
-        tween:Play()
-        wait(0.2)
-        if callback then callback() end
-        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 50, 50)}):Play()
-    end)
 end
 
 return ModernGUI
