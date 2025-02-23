@@ -27,19 +27,30 @@ function ModernGUI:CreateWindow(title)
     local self = setmetatable({}, ModernGUI)
     Converted["_ScreenGui"].Parent = game:GetService("CoreGui")
 
-    Converted["_Frame"].BackgroundColor3 = Color3.fromRGB(175, 0, 0)
+    -- Frame for the window
     Converted["_Frame"].Size = UDim2.new(0, 354, 0, 24)
+    Converted["_Frame"].BackgroundColor3 = Color3.fromRGB(175, 0, 0)
+    Converted["_Frame"].Position = UDim2.new(0.315, 0, 0.37, 0)
     Converted["_Frame"].Parent = Converted["_ScreenGui"]
 
-    Converted["_Frame1"].BackgroundColor3 = Color3.fromRGB(29, 29, 29)
+    -- The main content frame
     Converted["_Frame1"].Size = UDim2.new(0, 354, 0, 202)
+    Converted["_Frame1"].BackgroundColor3 = Color3.fromRGB(29, 29, 29)
+    Converted["_Frame1"].Position = UDim2.new(0, 0, 1, 0)
     Converted["_Frame1"].Parent = Converted["_Frame"]
 
+    -- Title bar
     Converted["_TitleBar"].Text = title
     Converted["_TitleBar"].Size = UDim2.new(0, 347, 0, 24)
+    Converted["_TitleBar"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Converted["_TitleBar"].BackgroundTransparency = 1
+    Converted["_TitleBar"].TextColor3 = Color3.fromRGB(255, 255, 255)
     Converted["_TitleBar"].Parent = Converted["_Frame"]
 
-    -- Return instance
+    -- Add corner radius to frame
+    Converted["_UICorner"].CornerRadius = UDim.new(0, 3)
+    Converted["_UICorner"].Parent = Converted["_Frame1"]
+
     return self
 end
 
@@ -47,7 +58,13 @@ end
 function ModernGUI:CreateButton(text, callback)
     Converted["_Button"].Text = text
     Converted["_Button"].Size = UDim2.new(0, 340, 0, 22)
+    Converted["_Button"].Position = UDim2.new(0.019, 0, 0.054, 0)
+    Converted["_Button"].BackgroundColor3 = Color3.fromRGB(175, 0, 0)
     Converted["_Button"].Parent = Converted["_Frame1"]
+
+    -- Button corner radius
+    Converted["_UICorner1"].CornerRadius = UDim.new(0, 3)
+    Converted["_UICorner1"].Parent = Converted["_Button"]
 
     Converted["_Button"].MouseButton1Click:Connect(function()
         local tween = TweenService:Create(Converted["_Button"], TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(70, 70, 70)})
@@ -61,13 +78,20 @@ end
 -- Create a slider
 function ModernGUI:CreateSlider(min, max, callback)
     Converted["_Slider"].Size = UDim2.new(0, 340, 0, 20)
+    Converted["_Slider"].Position = UDim2.new(0.019, 0, 0.217, 0)
+    Converted["_Slider"].BackgroundColor3 = Color3.fromRGB(49, 49, 49)
     Converted["_Slider"].Parent = Converted["_Frame1"]
 
-    -- Button for the slider knob
+    -- Slider button
     Converted["_Button1"].Size = UDim2.new(0, 35, 0, 22)
+    Converted["_Button1"].Position = UDim2.new(0, 0, 0, 0)
+    Converted["_Button1"].BackgroundColor3 = Color3.fromRGB(175, 0, 0)
     Converted["_Button1"].Parent = Converted["_Slider"]
 
-    -- Handle dragging logic here
+    -- Button corner radius
+    Converted["_UICorner2"].CornerRadius = UDim.new(0, 3)
+    Converted["_UICorner2"].Parent = Converted["_Button1"]
+
     local isDragging = false
     Converted["_Button1"].MouseButton1Down:Connect(function()
         isDragging = true
@@ -91,10 +115,19 @@ end
 -- Create a toggle
 function ModernGUI:CreateToggle(text, callback)
     Converted["_Toggle"].Size = UDim2.new(0, 70, 0, 20)
+    Converted["_Toggle"].Position = UDim2.new(0.019, 0, 0.361, 0)
+    Converted["_Toggle"].BackgroundColor3 = Color3.fromRGB(49, 49, 49)
     Converted["_Toggle"].Parent = Converted["_Frame1"]
 
+    -- Toggle button
     Converted["_Button2"].Size = UDim2.new(0, 35, 0, 22)
+    Converted["_Button2"].Position = UDim2.new(0, 0, 0, 0)
+    Converted["_Button2"].BackgroundColor3 = Color3.fromRGB(175, 0, 0)
     Converted["_Button2"].Parent = Converted["_Toggle"]
+
+    -- Button corner radius
+    Converted["_UICorner3"].CornerRadius = UDim.new(0, 3)
+    Converted["_UICorner3"].Parent = Converted["_Button2"]
 
     local toggleState = false
     Converted["_Button2"].MouseButton1Click:Connect(function()
@@ -109,7 +142,13 @@ end
 function ModernGUI:CreateImageLabel(imageUrl)
     Converted["_Imagelabel"].Image = imageUrl
     Converted["_Imagelabel"].Size = UDim2.new(0, 92, 0, 92)
+    Converted["_Imagelabel"].Position = UDim2.new(0.019, 0, 0.504, 0)
     Converted["_Imagelabel"].Parent = Converted["_Frame1"]
+
+    -- Add a corner radius to the image
+    Converted["_UICorner4"].CornerRadius = UDim.new(0, 3)
+    Converted["_UICorner4"].Parent = Converted["_Imagelabel"]
 end
 
 return ModernGUI
+
